@@ -13,7 +13,7 @@ import multiprocessing
 
 
 def img2array(fn):
-    i=Image.open(fn)
+    i = Image.open(fn)
     i.load()
     j = numpy.fromstring(i.convert("F").tostring(), dtype="float32")
     j.shape = -1, i.size[0]
@@ -292,7 +292,7 @@ if __name__ == "__main__":
     #lena1[100:150, 160:200] = 1
     ao1, ao2 = 5, 3
     print("Absolute offset is %s,%s" % (ao1, ao2))
-    lena1 = scipy.lena()
+    lena1 = scipy.misc.lena()
     lena2 = numpy.zeros_like(lena1)
     lena2[ao1:, ao2:] = lena1[:-ao1, :-ao2]
 #    out = Visual_SURF(lena1, lena2)
