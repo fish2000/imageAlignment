@@ -373,8 +373,22 @@ if __name__ == "__main__":
             j = numpy.fromstring(i.convert("F").tostring(), dtype="float32")
             j.shape = -1, i.size[0]
             l.append(j)
-    imshow(stitch(*l), cmap="gray")
-    show()
+    
+    #imshow(stitch(*l), cmap="gray")
+    #show()
+    
+    import tempfile
+    from PIL import Image
+    
+    outimgfile = tempfile.NamedTemporaryFile(suffix='.png', delete=False)
+    imsave(outimgfile, stitch(*l), cmap='gray', format='png')
+    outimgfile.seek(0)
+    
+    outimg = Image.open(outimgfile)
+    outimg.show()
+    
+    raw_input("Enter to continue")
+    
 #    d = feature.sift(*l, verbose=True)
 #    k = d.keys()
 #    k.sort()
@@ -388,4 +402,4 @@ if __name__ == "__main__":
 #        print 0, "-->", i
 #        print 0, i, so.bestPath(0, i)[-1]
 
-    raw_input("Enter to continue")
+
