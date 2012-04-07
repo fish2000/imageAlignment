@@ -4,6 +4,7 @@
 import sys
 import feature
 import scipy
+import scipy.misc
 import numpy
 import matplotlib
 from pylab import *
