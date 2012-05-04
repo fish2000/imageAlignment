@@ -2,14 +2,21 @@
 # -*- coding: utf-8 -*-
 
 import sys
+
 import feature
+
 import scipy
 import scipy.misc
 import numpy
+
 import matplotlib
 from pylab import *
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+
 import time
 from itertools import combinations, permutations
+
 import Image
 import multiprocessing
 
@@ -42,11 +49,20 @@ def Visual(im1, im2, ctrlPt):
     bigimg = numpy.zeros((max(s00, s10) , s01 + s11))
     bigimg[:s00, :s01] = im1
     bigimg[:s10, s01:] = im2
+    
+    #plot([0,1000], 'k.')
     imshow(bigimg)
-    arrow(s01, 0, 0, max(s00, s10), width=0)
-    for i in range(ctrlPt.shape[0]):
+    
+    _dart = arrow(s01, 0, 0, max(s00, s10), width=0.1)
+    _fig = gca()
+    _fig.add_patch(_dart)
+    
+    for i in range(ctrlPt.shape[0])[:20]:
         color = (cos(i) ** 2, cos(i + 1) ** 2, cos(i + 2) ** 2)
-        arrow(ctrlPt[i, 1], ctrlPt[i, 0], ctrlPt[i, 3] - ctrlPt[i, 1] + s01 , ctrlPt[i, 2] - ctrlPt[i, 0] , width=0, color=color)
+        _dart = arrow(ctrlPt[i, 1], ctrlPt[i, 0], ctrlPt[i, 3] - ctrlPt[i, 1] + s01 , ctrlPt[i, 2] - ctrlPt[i, 0] , width=0, color=color)
+        _fig.add_patch(_dart)
+    
+    savefig('/Users/fish/Desktop/yo-dogg.jpg')
     show()
 
 
@@ -289,6 +305,14 @@ class setOfOffsets(object):
         return d
 
 if __name__ == "__main__":
+    what1 = '/Users/fish/Desktop/what1.png'
+    what2 = '/Users/fish/Desktop/what2.png'
+    Visual_SIFT(img2array(what1), img2array(what2))
+    #Visual_SURF(img2array(what1), img2array(what2))
+    #Visual_ASIFT(img2array(what1), img2array(what2))
+
+
+if __name__ == "__yodogg__":
     #lena1 = numpy.zeros((512, 512))
     #scipy.lena()
     #lena1[100:150, 160:200] = 1
