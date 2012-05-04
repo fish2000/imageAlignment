@@ -42,22 +42,32 @@ else:
     from Cython.Distutils.extension import Extension
     from Cython.Distutils import build_ext
 
-feature_ext = Extension(name="feature",
+feature_ext = Extension(
+    name="feature",
+    
+    sources=src + \
+        glob.glob("surf/*.cpp")  + \
+        glob.glob("sift/*.cpp")  + \
+        glob.glob("asift/*.cpp") + \
+        glob.glob("orsa/*.cpp"),
+    
+    include_dirs=get_numpy_include_dirs(),
+    language="c++",
+    
+    undef_macros=['_OPENMP'],
+    
+    #libraries=["stdc++"],
+    #extra_compile_args=['-fopenmp'],
+    #extra_link_args=['-fopenmp'],
+)
 
-                    sources=src + glob.glob("surf/*.cpp") + glob.glob("sift/*.cpp") + glob.glob("asift/*.cpp") + glob.glob("orsa/*.cpp"),
-                    include_dirs=get_numpy_include_dirs(),
-                    language="c++",
-#                    libraries=["stdc++"],
-                    extra_compile_args=['-fopenmp'],
-                    extra_link_args=['-fopenmp'],
-                    )
 
-
-setup(name='feature',
-      version="0.0.1",
-      author="Jerome Kieffer",
-      author_email="jerome.kieffer@esrf.eu",
-      description='test for feature extraction algorithm like sift, surf, ...',
-      ext_modules=[feature_ext],
-      cmdclass={'build_ext': build_ext}
-      )
+setup(
+    name='feature',
+    version="0.0.1",
+    author="Jerome Kieffer",
+    author_email="jerome.kieffer@esrf.eu",
+    description='test for feature extraction algorithm like sift, surf, ...',
+    ext_modules=[feature_ext],
+    cmdclass={'build_ext': build_ext},
+)

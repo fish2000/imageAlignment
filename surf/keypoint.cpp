@@ -12,7 +12,10 @@
 #include <sstream>
 #include <iostream>
 #include <fstream>
+
+#ifdef _OPENMP
 #include <omp.h>
+#endif /* _OPENMP */
 
 
 keyPoint::keyPoint(float a, float b, float c,  float e, bool f)

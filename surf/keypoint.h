@@ -13,7 +13,10 @@
 #include <math.h>
 #include "lib.h"
 #include "image.h"
+
+#ifdef _OPENMP
 #include <omp.h>
+#endif /* _OPENMP */
 
 
 /** 
