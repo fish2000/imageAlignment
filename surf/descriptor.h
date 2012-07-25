@@ -25,14 +25,14 @@
 /// \class vectorDescriptor
 /** \brief A descriptor */
 class vectorDescriptor{
-	public :
-	float sumDx;
-	float sumDy;
-	float sumAbsDx;
-	float sumAbsDy;
-	vectorDescriptor(float a,float b,float c, float d);
-	~vectorDescriptor();
-	vectorDescriptor();
+    public :
+    float sumDx;
+    float sumDy;
+    float sumAbsDx;
+    float sumAbsDy;
+    vectorDescriptor(float a,float b,float c, float d);
+    ~vectorDescriptor();
+    vectorDescriptor();
 };
 
 
@@ -40,21 +40,32 @@ class vectorDescriptor{
 
 class descriptor{
 public:vectorDescriptor* list;///Will be the 16 elements of the descriptor
-	keyPoint* kP;/// Keypoint linked to the descriptor.
-	descriptor();
-	descriptor(descriptor* a);
-	
-	~descriptor();
+    keyPoint* kP;/// Keypoint linked to the descriptor.
+    descriptor();
+    descriptor(descriptor* a);
+
+    ~descriptor();
     descriptor(const descriptor & des);
-	
+
 };
 
 typedef  std::vector<descriptor*> listDescriptor;
 
 
 
-descriptor* makeDescriptor(imageIntegral* imgInt,keyPoint* pC);
-listDescriptor* getDescriptor(imageIntegral* imgInt,listKeyPoints* lPC);
-listDescriptor* getKeyPoints(image *img,int numberOctave,int numberInterval,listKeyPoints* lKP,bool verbose);
+descriptor* makeDescriptor(
+    imageIntegral* imgInt,
+    keyPoint* pC);
+
+listDescriptor* getDescriptor(
+    imageIntegral* imgInt,
+    listKeyPoints* lPC);
+
+listDescriptor* getKeyPoints(
+    image *img,
+    int numberOctave,
+    int numberInterval,
+    listKeyPoints* lKP,
+    bool verbose);
 
 #endif

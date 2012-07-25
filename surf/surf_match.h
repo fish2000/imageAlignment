@@ -1,24 +1,27 @@
 /**
- * \file surf.h
- * \brief Header for SURF tools
- *
- * The only one you have to include.
- *
- */
+* \file surf.h
+* \brief Header for SURF tools
+*
+* The only one you have to include.
+*
+*/
 
 
 #ifndef SURF
-#define SURF
-#include "integral.h"
-#include "descriptor.h"
-#include "keypoint.h"
-#include "match.h"
+    #define SURF
 
-#include <vector>
-#include <stdlib.h>
-#include <stdio.h>
-#include <assert.h>
+    #include "integral.h"
+    #include "descriptor.h"
+    #include "keypoint.h"
+    #include "match.h"
 
-void get_points(listMatch* m,float* out);
+    #include <vector>
+    #include <stdlib.h>
+    #include <stdio.h>
+    #include <assert.h>
+
+    void get_points(
+        listMatch* m,
+        float* out);
 
 #endif

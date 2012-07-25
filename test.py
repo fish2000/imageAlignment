@@ -332,10 +332,13 @@ if __name__ == "__main__":
     what1 = '/Users/fish/Downloads/gy3db.jpg'
     what2 = '/Users/fish/Downloads/qmGwo.jpg'
     
-    #Visual_SIFT(img2array(what1), img2array(what2))
-    Visual_SURF(img2array(what1), img2array(what2))
-    #Visual_ASIFT(img2array(what1), img2array(what2))
-
+    #out = Visual_SIFT(img2array(what1), img2array(what2))
+    outout = Visual_SURF(img2array(what1), img2array(what2))
+    #outre = Visual_ASIFT(img2array(what1), img2array(what2))
+    
+    from pprint import pprint
+    pprint(outout, indent=5)
+    
 
 if __name__ == "__yodogg__":
     #lena1 = numpy.zeros((512, 512))

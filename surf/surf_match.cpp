@@ -10,18 +10,20 @@
 
 #include "surf_match.h"
 
-
 using namespace std;
 
-//Extract matching points
-void get_points(listMatch* m,float* out){
-	for(int i=0;i<m->size();i++)
-	{
-		out[4*i] = ((((*m)[i]).first)->kP)->y;
-		out[4*i+1] = ((((*m)[i]).first)->kP)->x;
-		out[4*i+2] = ((((*m)[i]).second)->kP)->y;
-		out[4*i+3]  = ((((*m)[i]).second)->kP)->x;
-	}
+void get_points(listMatch* m, float* out) {
+    // Extract matching points
+
+    for (int i = 0; i < m->size(); i++) {
+
+        out[4*i] = ((((*m)[i]).first)->kP)->y;
+        out[4*i+1] = ((((*m)[i]).first)->kP)->x;
+        out[4*i+2] = ((((*m)[i]).second)->kP)->y;
+        out[4*i+3]  = ((((*m)[i]).second)->kP)->x;
+
+    }
+
 }
 
 
