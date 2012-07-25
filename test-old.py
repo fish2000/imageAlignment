@@ -53,35 +53,13 @@ def Visual(im1, im2, ctrlPt):
     #plot([0,1000], 'k.')
     imshow(bigimg)
     
-    arrow_params = {
-        
-        'length_includes_head': True,
-        'shape':                "full",
-        'head_starts_at_zero':  True,
-        'alpha':                0.6,
-        
-        'head_width':           10.0,
-        'head_length':          12.0,
-        'overhang':             2.0,
-    }
-    
-    _dart = arrow(s01, 0, 0, max(s00, s10),
-        width=1.0,
-        color=(225.0/255.0, 5.0/255.0, 35.0/255.0),
-        **arrow_params)
+    _dart = arrow(s01, 0, 0, max(s00, s10), width=0.1)
     _fig = gca()
     _fig.add_patch(_dart)
     
-    for i in range(ctrlPt.shape[0])[:100]:
-        color = (0.0, cos(i + 1) ** 2, cos(i) ** 2)
-        _dart = arrow(
-            ctrlPt[i, 1],
-            ctrlPt[i, 0],
-            ctrlPt[i, 3] - ctrlPt[i, 1] + s01,
-            ctrlPt[i, 2] - ctrlPt[i, 0],
-            width=0.25,
-            color=color,
-            **arrow_params)
+    for i in range(ctrlPt.shape[0])[:20]:
+        color = (cos(i) ** 2, cos(i + 1) ** 2, cos(i + 2) ** 2)
+        _dart = arrow(ctrlPt[i, 1], ctrlPt[i, 0], ctrlPt[i, 3] - ctrlPt[i, 1] + s01 , ctrlPt[i, 2] - ctrlPt[i, 0] , width=0, color=color)
         _fig.add_patch(_dart)
     
     savefig('/Users/fish/Desktop/yo-dogg.jpg')
@@ -327,14 +305,10 @@ class setOfOffsets(object):
         return d
 
 if __name__ == "__main__":
-    #what1 = '/Users/fish/Desktop/what1.png'
-    #what2 = '/Users/fish/Desktop/what2.png'
-    
-    what1 = '/Users/fish/Downloads/gy3db.jpg'
-    what2 = '/Users/fish/Downloads/qmGwo.jpg'
-    
-    #Visual_SIFT(img2array(what1), img2array(what2))
-    Visual_SURF(img2array(what1), img2array(what2))
+    what1 = '/Users/fish/Desktop/what1.png'
+    what2 = '/Users/fish/Desktop/what2.png'
+    Visual_SIFT(img2array(what1), img2array(what2))
+    #Visual_SURF(img2array(what1), img2array(what2))
     #Visual_ASIFT(img2array(what1), img2array(what2))
 
 
