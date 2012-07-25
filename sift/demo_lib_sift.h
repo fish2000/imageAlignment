@@ -1,12 +1,12 @@
-// Authors: Unknown. Please, if you are the author of this file, or if you 
-// know who are the authors of this file, let us know, so we can give the 
+// Authors: Unknown. Please, if you are the author of this file, or if you
+// know who are the authors of this file, let us know, so we can give the
 // adequate credits and/or get the adequate authorizations.
 
-// WARNING: 
+// WARNING:
 // This file implements an algorithm possibly linked to the patent
 //
-// David Lowe  "Method and apparatus for identifying scale invariant 
-// features in an image and use of same for locating an object in an 
+// David Lowe  "Method and apparatus for identifying scale invariant
+// features in an image and use of same for locating an object in an
 // image",  U.S. Patent 6,711,293.
 //
 // This file is made available for the exclusive aim of serving as
@@ -37,17 +37,17 @@
 
 ///////////// Description
 /// For each octave:
-///    	- Divide in par.Scales scales
-/// 	- Convolve and compute differences of convolved scales
-///	- Look for a 3x3 multiscale extrema and contraste enough and with no predominant direction (no 1d edge)
+///     - Divide in par.Scales scales
+///     - Convolve and compute differences of convolved scales
+/// - Look for a 3x3 multiscale extrema and contraste enough and with no predominant direction (no 1d edge)
 
 /// For each extrema
-///	- Compute orientation histogram in neighborhood.
-///	- Generate a keypoint for each mode with this orientation
+/// - Compute orientation histogram in neighborhood.
+/// - Generate a keypoint for each mode with this orientation
 
 
 /// For each keypoint
-///	 - Create vector 
+///  - Create vector
 
 
 
@@ -77,52 +77,52 @@
 
 
 /* Keypoint structure:
-	position:	x,y
-	scale:		s
-	orientation:	angle
-	descriptor:	array of gradient orientation histograms in a neighbors */
+    position:   x,y
+    scale:      s
+    orientation:    angle
+    descriptor: array of gradient orientation histograms in a neighbors */
 struct keypoint {
-	float	x,y,
-		scale,
-		angle;
-	float	vec[VecLength];
+    float   x,y,
+        scale,
+        angle;
+    float   vec[VecLength];
 };
 
 
 /* Keypoint structure:
- position:	x,y
- scale:		s
- orientation:	angle
- descriptor:	array of gradient orientation histograms in a neighbors */
+ position:  x,y
+ scale:     s
+ orientation:   angle
+ descriptor:    array of gradient orientation histograms in a neighbors */
 struct keypoint_char {
-	float	x,y,
-	scale,
-	angle;
-	unsigned char	vec[VecLength];
+    float   x,y,
+    scale,
+    angle;
+    unsigned char   vec[VecLength];
 };
 
 /* Keypoint structure:
- position:	x,y
- scale:		s
- orientation:	angle
- descriptor:	array of gradient orientation histograms in a neighbors */
+ position:  x,y
+ scale:     s
+ orientation:   angle
+ descriptor:    array of gradient orientation histograms in a neighbors */
 struct keypoint_short {
-	float	x,y,
-	scale,
-	angle;
-	unsigned short	vec[VecLength];
+    float   x,y,
+    scale,
+    angle;
+    unsigned short  vec[VecLength];
 };
 
 /* Keypoint structure:
- position:	x,y
- scale:		s
- orientation:	angle
- descriptor:	array of gradient orientation histograms in a neighbors */
+ position:  x,y
+ scale:     s
+ orientation:   angle
+ descriptor:    array of gradient orientation histograms in a neighbors */
 struct keypoint_int {
-	float	x,y,
-	scale,
-	angle;
-	unsigned int	vec[VecLength];
+    float   x,y,
+    scale,
+    angle;
+    unsigned int    vec[VecLength];
 };
 
 /* List of keypoints: just use the standard class vector: */
@@ -159,7 +159,7 @@ int order;
    values determined experimentally are in the range 1.2 to 1.8.
 */
 float  InitSigma /*= 1.6*/;
- 
+
 
 /* Peaks in the DOG function must be at least BorderDist samples away
    from the image border, at whatever sampling is used for that scale.
@@ -190,7 +190,7 @@ int Scales /*= 3*/;
    regions.
 */
 
-//#define  PeakThreshInit  255*0.04 
+//#define  PeakThreshInit  255*0.04
 //#define  PeakThresh      PeakThreshInit / Scales
 float PeakThresh  /*255.0 * 0.04 / 3.0*/;
 
@@ -279,7 +279,7 @@ int noncorrectlylocalized;
 };
 
 //////////////////////////////////////////////////////////
-/// SIFT 
+/// SIFT
 //////////////////////////////////////////////////////////
 
 void default_sift_parameters(siftPar &par);

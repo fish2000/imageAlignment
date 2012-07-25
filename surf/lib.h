@@ -26,7 +26,7 @@ inline int absval(int x);
 /** \def nombreSecteur
  * \brief Nombre de secteur qu'on considère pour la fonction d'orientation
  */
-#define number_sector 16 
+#define number_sector 16
 /** \def rate
  * \brief Rate between the last and previous last minimum in euclidean norm for matching
  */
@@ -51,24 +51,24 @@ inline int absval(int x);
  */
 inline float gaussian(float x, float y, float sig)
 {
-	return 1/(2*pi*sig*sig)*expf( -(x*x+y*y)/(2*sig*sig));
+    return 1/(2*pi*sig*sig)*expf( -(x*x+y*y)/(2*sig*sig));
 }
 
 /// Round function...
 /** Set inline... */
 inline int fround(float flt)
 {
-	return (int) (flt+0.5f);
+    return (int) (flt+0.5f);
 }
 /// Absolute value int
 inline int absval(int x)
 {
-	return ((x>0)?x:-x);
+    return ((x>0)?x:-x);
 }
 
 /// Absolute value float
 inline float absval(float x)
 {
-	return ((x>0)?x:-x);
+    return ((x>0)?x:-x);
 }
 #endif

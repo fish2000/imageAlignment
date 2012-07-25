@@ -19,19 +19,19 @@
 #endif /* _OPENMP */
 
 
-/** 
+/**
  \class keyPoint For the keypoint.
  \brief Has the key point with natural notations.
  */
 class keyPoint {
 public:
-	float	x,y,scale,orientation;
-	bool signLaplacian;
-	keyPoint(float a, float b, float c,  float e, bool f);
-	
-	keyPoint(keyPoint* a);
-	keyPoint();
-	
+    float   x,y,scale,orientation;
+    bool signLaplacian;
+    keyPoint(float a, float b, float c,  float e, bool f);
+
+    keyPoint(keyPoint* a);
+    keyPoint();
+
 };
 
 /// The vector of keypoint
@@ -52,19 +52,19 @@ bool interpolationSpaceScale(image** img,int x, int y,int sig,float &scale,float
  */
 inline bool isMaximum(image** imageStamp,int x,int y,int scale)
 {
-	float tmp=(*(imageStamp[scale]))(x,y);
-	if(absval(tmp)>threshold_maximum )
-	{
-			for(int j=-1+y;j<2+y;j++)
-				for(int i=-1+x;i<2+x;i++)
-					if((*(imageStamp[scale-1]))(i,j)>tmp or (*(imageStamp[scale]))(i,j)>tmp or (*(imageStamp[scale+1]))(i,j)>tmp )
-						return false;
-		
-		
-		return true;
-	}						
-	else
-		return false;
+    float tmp=(*(imageStamp[scale]))(x,y);
+    if(absval(tmp)>threshold_maximum )
+    {
+            for(int j=-1+y;j<2+y;j++)
+                for(int i=-1+x;i<2+x;i++)
+                    if((*(imageStamp[scale-1]))(i,j)>tmp or (*(imageStamp[scale]))(i,j)>tmp or (*(imageStamp[scale+1]))(i,j)>tmp )
+                        return false;
+
+
+        return true;
+    }
+    else
+        return false;
 }
 
 
