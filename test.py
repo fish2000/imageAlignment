@@ -67,8 +67,7 @@ def Visual(im1, im2, ctrlPt):
     
     _dart = arrow(s01, 0, 0, max(s00, s10),
         width=1.0,
-        color=(225.0/255.0, 5.0/255.0, 35.0/255.0),
-        **arrow_params)
+        color=(225.0/255.0, 5.0/255.0, 35.0/255.0))
     _fig = gca()
     _fig.add_patch(_dart)
     
