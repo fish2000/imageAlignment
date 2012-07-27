@@ -32,6 +32,7 @@ __doc__ = "this is a cython wrapper for feature extraction algorithm"
 
 import cython, time
 from cython.parallel cimport prange
+from cython.operator cimport dereference as deref
 cimport numpy
 import numpy
 from libcpp cimport bool
@@ -94,7 +95,8 @@ cdef extern from "sift/demo_lib_sift.h":
         float   angle
         float * vec
     #typedef std::vector<keypoint> keypointslist;
-    ctypedef  vector[ keypoint ] keypointslist
+    ctypedef vector[ keypoint ] keypointslist
+    ctypedef int VecLength "VecLength"
     struct siftPar:
         int OctaveMax
         int DoubleImSize
@@ -164,7 +166,22 @@ def surf1(numpy.ndarray in1 not None, bool verbose=False):
         with nogil:
             listeDesc1 = getKeyPoints(img1, octave, interval, l1, verbose)
 
-    return l1, listeDesc1
+    cdef imageIntegral * _integral = computeIntegralImage(img1, verbose)
+    cdef listDescriptor _list = deref(listeDesc1)
+
+    cdef listMatch * _match = matchDescriptor(
+        listDescriptor(_integral, _list),
+        listDescriptor(_integral, _list)
+    )
+    cdef numpy.ndarray[numpy.float32_t, ndim = 2] out_l1 = numpy.zeros((_match.size(), 4), dtype="float32")
+    get_points(_match, < float *> (out_l1.data))
+
+    cdef listMatch * _secondmatch = matchDescriptor(listeDesc1, listeDesc1)
+    cdef numpy.ndarray[numpy.float32_t, ndim = 2] out_listeDesc1 = numpy.zeros((_secondmatch.size(), 4), dtype="float32")
+    get_points(_secondmatch, < float *> (out_listeDesc1.data))
+
+    del _match, _secondmatch, _integral, l1, listeDesc1, img1
+    return out_l1, out_listeDesc1, data1
 
 
 @cython.cdivision(True)
@@ -239,7 +256,17 @@ def sift1(numpy.ndarray in1 not None, bool verbose=False):
         with nogil:
             compute_sift_keypoints(< float *> data1.data, k1, data1.shape[1], data1.shape[0], para);
 
-    return k1, data1
+    cdef numpy.ndarray[numpy.float32_t, ndim = 2] out = numpy.zeros((k1.size(), (5 + VecLength)), dtype="float32")
+    for i in xrange(k1.size()):
+        out[i, 0] = k1[i].x
+        out[i, 1] = k1[i].y
+        out[i, 2] = k1[i].scale
+        out[i, 3] = k1[i].angle
+        for v in xrange(VecLength):
+            out[i, (4+v)] = k1[i].vec[v]
+
+    #del k1, para
+    return out, data1
 
 
 @cython.cdivision(True)
