@@ -97,7 +97,7 @@ cdef extern from "sift/demo_lib_sift.h":
         float   angle
         float * vec
     #typedef std::vector<keypoint> keypointslist;
-    ctypedef vector[ keypoint ] keypointslist
+    ctypedef  vector[ keypoint ] keypointslist
     struct siftPar:
         int OctaveMax
         int DoubleImSize
@@ -148,46 +148,6 @@ ctypedef  vector[ Match ] Matchlist
 @cython.cdivision(True)
 @cython.boundscheck(False)
 @cython.wraparound(False)
-def surf1(numpy.ndarray in1 not None, bool verbose=False):
-    cdef listKeyPoints * l1 = new listKeyPoints()
-    cdef listDescriptor * listeDesc1
-    cdef numpy.ndarray[numpy.float32_t, ndim = 2] data1 = numpy.ascontiguousarray(
-        255. * (in1.astype("float32") - in1.min()) / (in1.max() - in1.min()))
-    cdef image * img1 = new image(data1.shape[1], data1.shape[0])
-    img1.img = < float *> data1.data
-
-    if verbose:
-        import time
-        time_init = time.time()
-        listeDesc1 = getKeyPoints(img1, octave, interval, l1, verbose)
-        time_int = time.time()
-        print "SURF took %.3fs image1: %i ctrl points" % (time_int - time_init, listeDesc1.size())
-
-    else:
-        with nogil:
-            listeDesc1 = getKeyPoints(img1, octave, interval, l1, verbose)
-
-    cdef imageIntegral * _integral = computeIntegralImage(img1, verbose)
-    cdef listDescriptor _list = deref(listeDesc1)
-
-    cdef listMatch * _match = matchDescriptor(
-        listDescriptor(_integral, _list),
-        listDescriptor(_integral, _list)
-    )
-    cdef numpy.ndarray[numpy.float32_t, ndim = 2] out_l1 = numpy.zeros((_match.size(), 4), dtype="float32")
-    get_points(_match, < float *> (out_l1.data))
-
-    cdef listMatch * _secondmatch = matchDescriptor(listeDesc1, listeDesc1)
-    cdef numpy.ndarray[numpy.float32_t, ndim = 2] out_listeDesc1 = numpy.zeros((_secondmatch.size(), 4), dtype="float32")
-    get_points(_secondmatch, < float *> (out_listeDesc1.data))
-
-    del _match, _secondmatch, _integral, l1, listeDesc1, img1
-    return out_l1, out_listeDesc1, data1
-
-
-@cython.cdivision(True)
-@cython.boundscheck(False)
-@cython.wraparound(False)
 def surf2(numpy.ndarray in1 not None, numpy.ndarray in2 not None, bool verbose=False):
     """
     Call surf on a pair of images
@@ -203,10 +163,8 @@ def surf2(numpy.ndarray in1 not None, numpy.ndarray in2 not None, bool verbose=F
     cdef listDescriptor * listeDesc2
     cdef listMatch * matching
 
-    cdef numpy.ndarray[numpy.float32_t, ndim = 2] data1 = numpy.ascontiguousarray(
-        255. * (in1.astype("float32") - in1.min()) / (in1.max() - in1.min()))
-    cdef numpy.ndarray[numpy.float32_t, ndim = 2] data2 = numpy.ascontiguousarray(
-        255. * (in2.astype("float32") - in2.min()) / (in2.max() - in2.min()))
+    cdef numpy.ndarray[numpy.float32_t, ndim = 2] data1 = numpy.ascontiguousarray(255. * (in1.astype("float32") - in1.min()) / (in1.max() - in1.min()))
+    cdef numpy.ndarray[numpy.float32_t, ndim = 2] data2 = numpy.ascontiguousarray(255. * (in2.astype("float32") - in2.min()) / (in2.max() - in2.min()))
     cdef image * img1 = new image(data1.shape[1], data1.shape[0])
     img1.img = < float *> data1.data
     cdef image * img2 = new image(data2.shape[1], data2.shape[0])
@@ -241,40 +199,6 @@ def normalize_image(numpy.ndarray img not None):
     maxi = img.max()
     mini = img.min()
     return numpy.ascontiguousarray(255. * (img - mini) / (maxi - mini),dtype=numpy.float32)
-
-
-@cython.cdivision(True)
-@cython.boundscheck(False)
-@cython.wraparound(False)
-def sift1(numpy.ndarray in1 not None, bool verbose=False):
-    """ Return SIFT keypoints for a single image """
-    cdef numpy.ndarray[numpy.float32_t, ndim = 2] data1 = numpy.ascontiguousarray(
-        255. * (in1.astype("float32") - in1.min()) / (in1.max() - in1.min()))
-    cdef keypointslist k1
-    cdef siftPar para
-    default_sift_parameters(para)
-
-    if verbose:
-        import time
-        t0 = time.time()
-        compute_sift_keypoints(< float *> data1.data, k1, data1.shape[1], data1.shape[0], para);
-        t1 = time.time()
-        print "SIFT took %.3fs image1: %i ctrl points" % (t1 - t0, k1.size())
-    else:
-        with nogil:
-            compute_sift_keypoints(< float *> data1.data, k1, data1.shape[1], data1.shape[0], para);
-
-    cdef numpy.ndarray[numpy.float32_t, ndim = 2] out = numpy.zeros((k1.size(), (5 + VecLength)), dtype="float32")
-    for i in xrange(k1.size()):
-        out[i, 0] = k1[i].x
-        out[i, 1] = k1[i].y
-        out[i, 2] = k1[i].scale
-        out[i, 3] = k1[i].angle
-        for v in xrange(VecLength):
-            out[i, (4+v)] = k1[i].vec[v]
-
-    #del k1, para
-    return out, data1
 
 
 @cython.cdivision(True)
@@ -815,4 +739,3 @@ cdef inline void unlock_lock(FastRLock lock) nogil:
             pythread.PyThread_release_lock(lock._real_lock)
             lock._is_locked = False
 ## end of http://code.activestate.com/recipes/577336/ }}}
-
